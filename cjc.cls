@@ -18,7 +18,7 @@
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesClass{cjc}
-  [2019/06/01 v1.0 A template framework for Chinese dissertations]
+  [2019/06/01 v0.1 A template framework for Chinese journals]
 \RequirePackage{ifxetex}
 \RequireXeTeX
 \newif\ifcjc@chinese
@@ -30,7 +30,7 @@
 \ifcjc@chinese
   \PassOptionsToClass{scheme=chinese}{ctexart}
 \else
-  \PassOptionsToClass{scheme=plain}{art}
+  \PassOptionsToClass{scheme=plain}{ctexart}
 \fi
 \PassOptionsToPackage{quiet}{xeCJK}
 \LoadClass[UTF8,a4paper,twoside,twocolumn,zihao=5,linespread=1.08]{ctexart}[2016/05/16]
@@ -38,6 +38,8 @@
   \ClassError{cjc}{%
     This template requires TeX Live\MessageBreak 2016 or later version}{}
 }
+\RequirePackage{kvdefinekeys}
+\RequirePackage{kvsetkeys}
 \RequirePackage{amsmath}
 \RequirePackage{unicode-math}
 \RequirePackage{amsthm}
@@ -193,9 +195,11 @@
 \let\sectionmark\@gobble
 \renewcommand\headrulewidth{0.4\p@}
 \newcommand\cjc@hf@font{\small}
+\newcommand\cjc@number{1}
+\newcommand\cjc@volume{1}
 \fancypagestyle{main}{%
   \fancyhf{}%
-  \fancyhead[LO]{\cjc@hf@font ? 期}%
+  \fancyhead[LO]{\cjc@hf@font \cjc@number{} 期}%
   \fancyhead[CO]{\cjc@hf@font 作者名等：论文题目}%
   \fancyhead[RO,LE]{\cjc@hf@font\thepage}%
   \fancyhead[CE]{\cjc@hf@font 计算机学报}%
@@ -204,30 +208,50 @@
 \pagestyle{main}
 \fancypagestyle{plain}{%
   \fancyhf{}%
-  \fancyhead[L]{\cjc@hf@font 第 ?? 卷\quad 第 ? 期\\\the\year{} 年 \the\month{} 月}%
+  \fancyhead[L]{\cjc@hf@font 第 \cjc@volume{} 卷\quad 第 \cjc@number{} 期\\\the\year{} 年 \the\month{} 月}%
   \fancyhead[C]{\cjc@hf@font 计算机学报\\CHINESE JOURNAL OF COMPUTERS}%
-  \fancyhead[R]{\cjc@hf@font Vol. ??  No. ?\\???.20??}%
+  \fancyhead[R]{\cjc@hf@font Vol. \cjc@volume\quad No. \cjc@number\\\cjc@doi}%
+}
+\newcommand\cjc@clc{*****}
+\newcommand\cjc@doi{10.1000/182}
+\newcommand\cjcsetup{\kvsetkeys{cjc}}
+\kv@set@family@handler{cjc}{\expandafter\gdef\csname cjc@#1\endcsname{#2}}
+\newcommand\cjc@author{%
 }
 \def\@maketitle{%
   \newpage
   \null
-  \vskip 2em%
-  \begin{center}%
-  \let \footnote \thanks
-    % {\LARGE \@title \par}%
-    {\heiti\zihao{2}\@title \par}%
-    \vskip 1.5em%
-    % {\large
-    {\zihao{3}%
-      \lineskip .5em%
-      \begin{tabular}[t]{c}%
-        \@author
-      \end{tabular}\par}%
-    \vskip 1em%
-    % {\large \@date}%
-  \end{center}%
-  \par
-  \vskip 1.5em}
+  \cjc@make@zh@title
+  \cjc@make@en@title
+}
+\def\cjc@make@zh@title{%
+  \vspace*{20\bp@}%
+  \begingroup
+    \centering
+    \heiti\zihao{2}\cjc@title\par
+  \endgroup
+  \vspace*{7.8\bp@}%
+  \begingroup
+    \zihao{-5}%
+    \textbf{摘\quad 要}\quad\cjc@abstract\par
+    关键词\quad\cjc@keywords\par
+    中图法分类号\quad\cjc@clc\qquad
+    DOI 号\quad\cjc@doi\par
+  \endgroup
+}
+\def\cjc@make@en@title{%
+  \vspace*{12\bp@}%
+  \begingroup
+    \centering
+    \bfseries\zihao{4}\@nameuse{cjc@title*}\par
+  \endgroup
+  \vspace{5\bp@}%
+  \begingroup
+    \zihao{-5}%
+    \textbf{Abstract}\quad\@nameuse{cjc@abstract*}\par
+    \textbf{Key words}\quad\@nameuse{cjc@keywords*}\par
+  \endgroup
+}
 \renewenvironment{abstract}{%
     \if@twocolumn
       \section*{\abstractname}%
@@ -241,12 +265,12 @@
     {\if@twocolumn\else\endquotation\fi}
 \ctexset{
   section = {
-    format     = \bfseries\zihao{4},
+    format     = \heiti\zihao{4},
     beforeskip = 8\bp@,
     afterskip  = 8\bp@,
   },
   subsection = {
-    format     = \bfseries\zihao{5},
+    format     = \heiti\zihao{5},
     beforeskip = 2.625\bp@,
     afterskip  = 2.625\bp@,
   },
