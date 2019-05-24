@@ -376,18 +376,13 @@
 \newtheorem{definition}          {\cjc@definitionname}
 \newtheorem{example}             {\cjc@examplename}
 \newtheorem*{remark}             {\cjc@remarkname}
+\DeclareRobustCommand{\qed}{证毕.}
 \renewenvironment{proof}[1][\proofname]{\par
-  \pushQED{\qed}%
-  \normalfont \topsep6\p@\@plus6\p@\relax
-  \trivlist
-    \item\relax\hskip2\ccwd
-    \textbf{#1}
-    \hskip\ccwd\ignorespaces
-  }{%
-  \popQED\endtrivlist\@endpefalse
+  \textbf{\proofname}.\quad
+}{%
+  \par\raggedleft\qed\par
 }
-\renewcommand\proofname\cjc@proofname
-\renewcommand\bibfont{\fontsize{7.5\bp@}{14\bp@}\selectfont}
+\renewcommand\bibfont{\fontsize{7.5\bp@}{14\bp@}\linespread{1}\selectfont}
 \renewcommand\@biblabel[1]{[#1]\hfill}
 \newcommand\cjc@atendpackage{\csname ctex_at_end_package:nn\endcsname}
 \cjc@atendpackage{hyperref}{
