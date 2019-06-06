@@ -40,6 +40,7 @@
 }
 \RequirePackage{kvdefinekeys}
 \RequirePackage{kvsetkeys}
+\RequirePackage{authblk}
 \RequirePackage{amsmath}
 \RequirePackage{unicode-math}
 \RequirePackage{amsthm}
@@ -186,7 +187,6 @@
   paper      = a4paper,
   vmargin    = 2.6cm,
   hmargin    = 2cm,
-  headheight = 0.75cm,
   headsep    = 0.15cm,
   twocolumn  = true,
   columnsep  = 0.75cm,
@@ -202,41 +202,53 @@
   \fancyhead[LO]{\cjc@hf@font \cjc@number{} 期}%
   \fancyhead[CO]{\cjc@hf@font 作者名等：论文题目}%
   \fancyhead[RO,LE]{\cjc@hf@font\thepage}%
-  \fancyhead[CE]{\cjc@hf@font 计算机学报}%
+  \fancyhead[CE]{\cjc@hf@font 计 \quad 算 \quad 机 \quad 学 \quad 报}%
   \fancyhead[RE]{\cjc@hf@font \the\year{} 年}%
 }
 \pagestyle{main}
 \fancypagestyle{plain}{%
   \fancyhf{}%
-  \fancyhead[L]{\cjc@hf@font 第 \cjc@volume{} 卷\quad 第 \cjc@number{} 期\\\the\year{} 年 \the\month{} 月}%
-  \fancyhead[C]{\cjc@hf@font 计算机学报\\CHINESE JOURNAL OF COMPUTERS}%
-  \fancyhead[R]{\cjc@hf@font Vol. \cjc@volume\quad No. \cjc@number\\\cjc@doi}%
+  \vspace{3mm}
+  \fancyhead[L]{\cjc@hf@font 第 \cjc@volume{} 卷\quad 第 \cjc@number{} 期\\[1.5mm]\the\year{} 年 \the\month{} 月}%
+  \fancyhead[C]{\cjc@hf@font 计 \quad 算 \quad 机 \quad 学 \quad 报\\[1.5mm]CHINESE JOURNAL OF COMPUTERS}%
+  \fancyhead[R]{\cjc@hf@font Vol. \cjc@volume\quad No. \cjc@number\\[1.5mm]\cjc@doi}%
+  \makeatletter %双线页眉
+  \def\headrule{{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
+  \hrule\@height 0.4pt \@width\headwidth\vskip2pt%上面线为0.4pt粗
+  \hrule\@height 0.4pt \@width\headwidth %下面0.4pt粗
+  \vskip-4\headrulewidth\vskip-2pt} %两条线的距离2pt
+  \vspace{10mm}} %双线与下面正文之间的垂直间距
 }
 \newcommand\cjc@clc{*****}
 \newcommand\cjc@doi{10.1000/182}
 \newcommand\cjcsetup{\kvsetkeys{cjc}}
 \kv@set@family@handler{cjc}{\expandafter\gdef\csname cjc@#1\endcsname{#2}}
-\newcommand\cjc@author{%
-}
 \def\@maketitle{%
   \newpage
   \null
   \cjc@make@zh@title
   \cjc@make@en@title
 }
-\def\cjc@make@zh@title{%
-  \vspace*{20\bp@}%
+\def\cjc@make@zh@title{
+  \vspace*{20\bp@}
   \begingroup
     \centering
+    \vspace{5mm}
     \heiti\zihao{2}\cjc@title\par
+    \vspace{5mm}
+    \fangsong\zihao{3}\cjc@name\par
+    \vspace{5mm}
+    \songti\zihao{6} \cjc@affilname\par
   \endgroup
   \vspace*{7.8\bp@}%
   \begingroup
-    \zihao{-5}%
-    \textbf{摘\quad 要}\quad\cjc@abstract\par
-    关键词\quad\cjc@keywords\par
-    中图法分类号\quad\cjc@clc\qquad
-    DOI 号\quad\cjc@doi\par
+    \zihao{-5}
+    {\renewcommand\baselinestretch{1.5}\selectfont\textbf{摘\quad 要}\quad\songti\cjc@abstract\par}
+    \vspace{5mm}
+    \heiti\textbf{关键词}\quad\songti\cjc@keywords\par
+    \vspace{2mm}
+    \heiti\textbf{中图法分类号}\quad\cjc@clc\qquad
+    \heiti\textbf{DOI号}\quad\cjc@doi\par
   \endgroup
 }
 \def\cjc@make@en@title{%
@@ -247,10 +259,12 @@
   \endgroup
   \vspace{5\bp@}%
   \begingroup
-    \zihao{-5}%
+    \zihao{5}%
     \textbf{Abstract}\quad\@nameuse{cjc@abstract*}\par
-    \textbf{Key words}\quad\@nameuse{cjc@keywords*}\par
+    \vspace{5mm}%
+    \textbf{Keywords}\quad\@nameuse{cjc@keywords*}\par
   \endgroup
+  \vspace{5mm}%
 }
 \renewenvironment{abstract}{%
     \if@twocolumn
@@ -265,17 +279,17 @@
     {\if@twocolumn\else\endquotation\fi}
 \ctexset{
   section = {
-    format     = \heiti\zihao{4},
+    format     = \heiti\zihao{4}\leftline,
     beforeskip = 8\bp@,
     afterskip  = 8\bp@,
   },
   subsection = {
-    format     = \heiti\zihao{5},
+    format     = \heiti\zihao{5}\leftline,
     beforeskip = 2.625\bp@,
     afterskip  = 2.625\bp@,
   },
   subsubsection = {
-    format     = \zihao{5},
+    format     = \zihao{5}\leftline,
     beforeskip = \z@,
     afterskip  = \z@,
   },
