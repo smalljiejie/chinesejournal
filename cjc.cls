@@ -256,6 +256,10 @@
   \begingroup
     \centering
     \bfseries\zihao{4}\@nameuse{cjc@title*}\par
+    \vspace{5mm}
+    \zihao{5}\@nameuse{cjc@name*}\par
+    \vspace{2mm}
+    \zihao{6}\@nameuse{cjc@affilname*}\par
   \endgroup
   \vspace{5\bp@}%
   \begingroup
