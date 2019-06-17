@@ -8,8 +8,6 @@
 \usepackage{siunitx}
 \usepackage{hyperref}
 
-
-
 \begin{document}
 
 \newcommand{\sect}[1]{\section{\textbf\emph{#1}}}
@@ -31,19 +29,15 @@
   keywords*    = {keyword, keyword, keyword, keyword},
 }
 
-
 \maketitle
-
 
 \sect{引言}
 
 对投稿的基本要求：
 
-（1）研究性论文主体应包括引言（重点论述研究的科学问题、意义、解决思路、价值、
-贡献等）、相关工作（为与引言部分独立的一个章节）、主要成果论述、关键实现技术、
-验证（对比实验或理论证明）、结论（结束语）等内容；系统实现或实验应有关键点的详细论述，以便读者能够重复实现论文所述成果。实验应有具体的实验环境设置、全面细致的数据对比分析。
+（1）研究性论文主体应包括引言（重点论述研究的科学问题、意义、解决思路、价值、贡献等）、相关工作（为与引言部分独立的一个章节）、主要成果论述、关键实现技术、验证（对比实验或理论证明）、结论（结束语）等内容；系统实现或实验应有关键点的详细论述，以便读者能够重复实现论文所述成果。实验应有具体的实验环境设置、全面细致的数据对比分析\cite{wy}。
 
-（2）综述应包括引言、问题与挑战、研究现状分析、未来研究方向、结论等内容。以分析、对比为主，避免堆砌文献或一般性介绍、叙述。
+（2）综述应包括引言、问题与挑战、研究现状分析、未来研究方向、结论等内容。以分析、对比为主，避免堆砌文献或一般性介绍、叙述\cite{wf}。
 
 （3）定理证明、公式推导、大篇幅的数学论述、原始数据，放到论文最后的附录中。
 
@@ -55,9 +49,9 @@
 
 （3）在学术、技术上，论文内容正确无误，各项内容确定。
 
-\subsection{\textbf{二级标题}}
+\ssect{二级标题}
 
-\subsubsection{三级标题}
+\sssect{三级标题}
 
 正文部分, 字体为5号宋体。
 
@@ -136,29 +130,17 @@
   \end{tabular}
 \end{table}
 
-% \begin{procedure}
-%   定理内容。
-%   “定义”、“假设”、“公理”、“引理”等的排版格式与此相同，详细定理证明、公式可放在附录中。
-% \end{procedure}
-
-% \begin{algorithm}
-%   定理内容。
-%   “定义”、“假设”、“公理”、“引理”等的排版格式与此相同，详细定理证明、公式可放在附录中。
-% \end{algorithm}
-
-
-
 \section*{致谢}
 
 致谢内容。
 
-
 \nocite{*}
 
-\bibliographystyle{cjc}
-\bibliography{refs}
-
-
+\begin{thebibliography}{99}
+  \addtolength{\itemsep}{-1.5ex}
+  \bibitem{wy}Wang W, Sun Y, Li H, Han Z. Cross-layer attack and defense in cognitive radio networks//Proceedings of the IEEE Globe Communication Conference (Globecom) 2010. Miami, Florida, USA,2010:1-6
+  \bibitem{wf}Barbour N, Schmidt G. Inertial sensor technology trends. IEEE Sensors Journal,2011,1(4):332- 339
+  \end{thebibliography}
 
 \appendix
 

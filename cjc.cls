@@ -1,21 +1,3 @@
-%%
-%% This is file `cjc.cls',
-%% generated with the docstrip utility.
-%%
-%% The original source files were:
-%%
-%% cjc.dtx  (with options: `class')
-%% 
-%% Copyright (C) 2019-2019 by Zeping Lee <zepinglee AT gmail.com>
-%% 
-%% This file may be distributed and/or modified under the
-%% conditions of the LaTeX Project Public License, either version 1.3c
-%% of this license or (at your option) any later version.
-%% The latest version of this license is in
-%%    https://www.latex-project.org/lppl.txt
-%% and version 1.3c or later is part of all distributions of LaTeX
-%% version 2005/12/01 or later.
-%% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesClass{cjc}
   [2019/06/01 v0.1 A template framework for Chinese journals]
@@ -42,6 +24,9 @@
 \RequirePackage{kvsetkeys}
 \RequirePackage{authblk}
 \RequirePackage{amsmath}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{diagbox}
 \RequirePackage{unicode-math}
 \RequirePackage{amsthm}
 \RequirePackage{geometry}
@@ -184,12 +169,15 @@
   \fi
 }
 \geometry{
-  paper      = a4paper,
-  vmargin    = 2.6cm,
-  hmargin    = 2cm,
-  headsep    = 0.15cm,
-  twocolumn  = true,
-  columnsep  = 0.75cm,
+  paper        = a4paper,
+  top          = 2.1cm,
+  bottom       = 2.7cm,
+  left         = 2cm,
+  right        = 2cm,
+  includehead  = true,
+  includefoot  = true,
+  headsep      = 5mm,
+  footskip     = 5mm,
 }
 \pagestyle{fancy}
 \let\sectionmark\@gobble
@@ -200,7 +188,7 @@
 \fancypagestyle{main}{%
   \fancyhf{}%
   \fancyhead[LO]{\cjc@hf@font \cjc@number{} 期}%
-  \fancyhead[CO]{\cjc@hf@font 作者名等：论文题目}%
+  \fancyhead[CO]{\cjc@hf@font \cjc@name 等：\cjc@title}%
   \fancyhead[RO,LE]{\cjc@hf@font\thepage}%
   \fancyhead[CE]{\cjc@hf@font 计 \quad 算 \quad 机 \quad 学 \quad 报}%
   \fancyhead[RE]{\cjc@hf@font \the\year{} 年}%
@@ -214,10 +202,15 @@
   \fancyhead[R]{\cjc@hf@font Vol. \cjc@volume\quad No. \cjc@number\\[1.5mm]\cjc@doi}%
   \makeatletter %双线页眉
   \def\headrule{{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
-  \hrule\@height 0.4pt \@width\headwidth\vskip2pt%上面线为0.4pt粗
-  \hrule\@height 0.4pt \@width\headwidth %下面0.4pt粗
-  \vskip-4\headrulewidth\vskip-2pt} %两条线的距离2pt
-  \vspace{10mm}} %双线与下面正文之间的垂直间距
+  \hrule\@height 0.4pt \@width\headwidth\vskip1.8pt%上面线为0.4pt粗 %两条线的距离2pt
+  \hrule\@height 0.4pt \@width\headwidth} %下面0.4pt粗
+  }
+  \vspace{-3mm}
+  \fancyfoot[LO,CE]{\rule[1mm]{40mm}{0.1mm}\\\songti\zihao{6}\hfill{收稿日期：\quad \quad -\quad
+  -\quad ；最终修改稿收到日期：\quad \quad -\quad -\quad . 本课题得到… …、
+  … …、… … 资助.\cjc@name(通信作者)，男/女，XXXX年生，硕士,主要研究领域为XXXXXXX.E-mail: XXXXXXXXXXXXX.
+  (给出的电子邮件地址应不会因出国、毕业、更换工作单位等原因而变动。请给出所有作者的电子邮件)
+  第1作者手机号码(投稿时必须提供，以便紧急联系，发表时会删除): XXXXXXXXXXX, E-mail: XXXXXXXXXXXXXXXXXXXXXXXXXXX}}
 }
 \newcommand\cjc@clc{*****}
 \newcommand\cjc@doi{10.1000/182}
@@ -225,26 +218,24 @@
 \kv@set@family@handler{cjc}{\expandafter\gdef\csname cjc@#1\endcsname{#2}}
 \def\@maketitle{%
   \newpage
-  \null
   \cjc@make@zh@title
   \cjc@make@en@title
+
 }
 \def\cjc@make@zh@title{
-  \vspace*{20\bp@}
   \begingroup
     \centering
-    \vspace{5mm}
+    \vspace{12mm}
     \heiti\zihao{2}\cjc@title\par
     \vspace{5mm}
     \fangsong\zihao{3}\cjc@name\par
     \vspace{5mm}
     \songti\zihao{6} \cjc@affilname\par
   \endgroup
-  \vspace*{7.8\bp@}%
+  \vspace{3mm}%
   \begingroup
     \zihao{-5}
-    {\renewcommand\baselinestretch{1.5}\selectfont\textbf{摘\quad 要}\quad\songti\cjc@abstract\par}
-    \vspace{5mm}
+    {\renewcommand\baselinestretch{1.5}\selectfont\textbf{摘\quad 要}\quad\songti\cjc@abstract\\\par}
     \heiti\textbf{关键词}\quad\songti\cjc@keywords\par
     \vspace{2mm}
     \heiti\textbf{中图法分类号}\quad\cjc@clc\qquad
@@ -252,9 +243,9 @@
   \endgroup
 }
 \def\cjc@make@en@title{%
-  \vspace*{12\bp@}%
   \begingroup
     \centering
+    \vspace{5mm}
     \bfseries\zihao{4}\@nameuse{cjc@title*}\par
     \vspace{5mm}
     \zihao{5}\@nameuse{cjc@name*}\par
@@ -372,35 +363,36 @@
   {}{2\ccwd}
   {\bfseries}{.}
   {\ccwd}{}
-\theoremstyle{cjc}
-\newcommand\cjc@assertionname{断言}
-\newcommand\cjc@assumptionname{假设}
-\newcommand\cjc@axiomname{公理}
-\newcommand\cjc@corollaryname{推论}
-\newcommand\cjc@definitionname{定义}
-\newcommand\cjc@examplename{例}
-\newcommand\cjc@lemmaname{引理}
-\newcommand\cjc@proofname{证明}
-\newcommand\cjc@propositionname{命题}
-\newcommand\cjc@remarkname{注}
-\newcommand\cjc@theoremname{定理}
-\newtheorem{theorem}             {\cjc@theoremname}
-\newtheorem{assertion}  [theorem]{\cjc@assertionname}
-\newtheorem{axiom}      [theorem]{\cjc@axiomname}
-\newtheorem{corollary}  [theorem]{\cjc@corollaryname}
-\newtheorem{lemma}      [theorem]{\cjc@lemmaname}
-\newtheorem{proposition}[theorem]{\cjc@propositionname}
-\newtheorem{assumption}          {\cjc@assumptionname}
-\newtheorem{definition}          {\cjc@definitionname}
-\newtheorem{example}             {\cjc@examplename}
-\newtheorem*{remark}             {\cjc@remarkname}
-\DeclareRobustCommand{\qed}{证毕.}
-\renewenvironment{proof}[1][\proofname]{\par
+  \theoremstyle{cjc}
+  \newcommand\cjc@assertionname{断言}
+  \newcommand\cjc@assumptionname{假设}
+  \newcommand\cjc@axiomname{公理}
+  \newcommand\cjc@corollaryname{推论}
+  \newcommand\cjc@definitionname{定义}
+  \newcommand\cjc@examplename{例}
+  \newcommand\cjc@lemmaname{引理}
+  \newcommand\cjc@proofname{证明}
+  \newcommand\cjc@propositionname{命题}
+  \newcommand\cjc@remarkname{注}
+  \newcommand\cjc@theoremname{定理}
+  \newtheorem{theorem}             {\cjc@theoremname}
+  \newtheorem{assertion}  [theorem]{\cjc@assertionname}
+  \newtheorem{axiom}      [theorem]{\cjc@axiomname}
+  \newtheorem{corollary}  [theorem]{\cjc@corollaryname}
+  \newtheorem{lemma}      [theorem]{\cjc@lemmaname}
+  \newtheorem{proposition}[theorem]{\cjc@propositionname}
+  \newtheorem{assumption}          {\cjc@assumptionname}
+  \newtheorem{definition}          {\cjc@definitionname}
+  \newtheorem{example}             {\cjc@examplename}
+  \newtheorem*{remark}             {\cjc@remarkname}
+  \DeclareRobustCommand{\qed}{证毕.}
+  \renewenvironment{proof}[1][\proofname]{\par
   \textbf{\proofname}.\quad
 }{%
   \par\raggedleft\qed\par
 }
-\renewcommand\bibfont{\fontsize{7.5\bp@}{14\bp@}\linespread{1}\selectfont}
+\renewcommand{\refname}{\heiti\zihao{5}\centerline{参考文献}}
+\renewcommand\bibfont{\fontsize{7.5\bp@}{14\bp@}\linespread{0}\selectfont}
 \renewcommand\@biblabel[1]{[#1]\hfill}
 \newcommand\cjc@atendpackage{\csname ctex_at_end_package:nn\endcsname}
 \cjc@atendpackage{hyperref}{
